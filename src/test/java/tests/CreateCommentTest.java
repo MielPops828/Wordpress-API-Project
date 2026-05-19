@@ -1,6 +1,7 @@
 package tests;
 
 import database.CommentQueries;
+import dto.entity.CommentEntity;
 import dto.request.CommentRequest;
 import io.qameta.allure.*;
 import io.restassured.response.Response;
@@ -20,6 +21,7 @@ public class CreateCommentTest extends BaseTest{
     @Description("Создание нового комментария к существующему посту")
     @Severity(SeverityLevel.CRITICAL)
     public void testSuccessCreateComment() throws SQLException {
+        SoftAssert softAssert = new SoftAssert();
         int postId = PostSteps.createPost(spec, config);
         CommentRequest commentRequest = CommentRequest.builder()
                 .post(postId)
@@ -36,12 +38,18 @@ public class CreateCommentTest extends BaseTest{
                 .extract()
                 .response();
         int commentId = response.jsonPath().getInt("id");
+        String commentContent = response.jsonPath().getString("content.raw");
+        CommentEntity commentEntity = CommentQueries.getCommentById(commentId);
         boolean isCommentCreated = CommentQueries.isCommentExists(commentId);
-        Assert.assertTrue(isCommentCreated, "Комментарий не был создан");
+        softAssert.assertTrue(isCommentCreated, "Комментарий не был создан");
+        softAssert.assertNotNull(commentEntity);
+        softAssert.assertEquals(commentEntity.getPost(), postId);
+        softAssert.assertEquals(commentEntity.getContent(), commentContent);
+        softAssert.assertAll();
     }
 
     @Test
-    @Description("Создание комментария к посту с указание несуществующего id поста")
+    @Description("Создание комментария к посту с указанием несуществующего id поста")
     @Severity(SeverityLevel.CRITICAL)
     public void testNotExistsIdCreateComment() throws SQLException {
         SoftAssert softAssert = new SoftAssert();

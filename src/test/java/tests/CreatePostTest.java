@@ -1,6 +1,7 @@
 package tests;
 
 import database.PostQueries;
+import dto.entity.PostEntity;
 import dto.request.PostRequest;
 import io.qameta.allure.*;
 import io.restassured.response.Response;
@@ -19,6 +20,7 @@ public class CreatePostTest extends BaseTest{
     @Description("Создание нового поста")
     @Severity(SeverityLevel.CRITICAL)
     public void testSuccessCreatePost() throws SQLException {
+        SoftAssert softAssert = new SoftAssert();
         PostRequest postRequest = PostRequest.builder()
                 .title("First post test")
                 .content("Some content")
@@ -36,7 +38,16 @@ public class CreatePostTest extends BaseTest{
                 .response();
         int postId = response.jsonPath().getInt("id");
         boolean isPostCreated = PostQueries.isPostExists(postId);
-        Assert.assertTrue(isPostCreated, "Пост не был создан");
+        PostEntity postEntity = PostQueries.getPostById(postId);
+        String postTitle = response.jsonPath().getString("title.raw");
+        String postContent = response.jsonPath().getString("content.raw");
+        String postStatus = response.jsonPath().getString("status");
+        softAssert.assertTrue(isPostCreated, "Пост не был создан");
+        Assert.assertNotNull(postEntity);
+        softAssert.assertEquals(postEntity.getTitle(), postTitle);
+        softAssert.assertEquals(postEntity.getContent(), postContent);
+        softAssert.assertEquals(postEntity.getStatus(), postStatus);
+        softAssert.assertAll();
     }
 
     @Test
