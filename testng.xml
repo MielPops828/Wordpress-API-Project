@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="WordPressAPISuite">
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+    <test name="WordPress API Tests">
+        <classes>
+            <class name="tests.CreatePostTest"/>
+            <class name="tests.UpdatePostTest"/>
+            <class name="tests.DeletePostTest"/>
+            <class name="tests.CreateCommentTest"/>
+            <class name="tests.UpdateCommentTest"/>
+            <class name="tests.DeleteCommentTest"/>
+        </classes>
+    </test>
+</suite>
