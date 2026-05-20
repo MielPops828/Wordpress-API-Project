@@ -3,12 +3,15 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .kotlin
+allure-results
+target
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea
 *.iws
 *.iml
 *.ipr
