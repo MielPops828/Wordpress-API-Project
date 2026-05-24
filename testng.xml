@@ -11,6 +11,8 @@
             <class name="tests.CreateCommentTest"/>
             <class name="tests.UpdateCommentTest"/>
             <class name="tests.DeleteCommentTest"/>
+            <class name="tests.GetPostTest"/>
+            <class name="tests.GetCommentTest"/>
         </classes>
     </test>
 </suite>
