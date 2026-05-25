@@ -7,6 +7,7 @@ import io.qameta.allure.*;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import utils.CommentHelper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -52,11 +53,7 @@ public class GetCommentTest extends BaseTest{
 
         List<Integer> postIds = PostQueries.createPostsInDb(config.createPostsCount(), "Test post", "Some content", "publish");
         createdPostIds.addAll(postIds);
-        List<Integer> commentIds = new ArrayList<>();
-        for (Integer postId : postIds) {
-            int commentId = CommentQueries.createCommentInDb(postId, "Test comment");
-            commentIds.add(commentId);
-        }
+        List<Integer> commentIds = CommentHelper.createCommentsForPosts(postIds, "Test content");
         createdCommentIds.addAll(commentIds);
         Response response = given(spec)
                 .auth()
@@ -176,11 +173,7 @@ public class GetCommentTest extends BaseTest{
 
         List<Integer> postIds = PostQueries.createPostsInDb(config.createPostsCount(), "Test post", "Some content", "publish");
         createdPostIds.addAll(postIds);
-        List<Integer> commentIds = new ArrayList<>();
-        for (Integer postId : postIds) {
-            int commentId = CommentQueries.createCommentInDb(postId, "Test comment");
-            commentIds.add(commentId);
-        }
+        List<Integer> commentIds = CommentHelper.createCommentsForPosts(postIds, "Test content");
         createdCommentIds.addAll(commentIds);
         Response response = given(spec)
                 .queryParam("per_page", config.getPerPage())
