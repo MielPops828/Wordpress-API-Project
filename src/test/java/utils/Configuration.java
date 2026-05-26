@@ -45,4 +45,16 @@ public interface Configuration extends Config {
 
     @Key("delete.invalid.id")
     String getInvalidIdDelete();
+
+    @Key("post.data.count")
+    int createPostsCount();
+
+    @Key("post.invalid.id")
+    String getPostInvalidId();
+
+    @Key("post.non.exists.id")
+    int getPostNonExistsId();
+
+    @Key("per.page")
+    int getPerPage();
 }
