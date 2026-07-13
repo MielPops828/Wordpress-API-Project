@@ -81,7 +81,7 @@ Wordpress-API-Project/
 ### 1. Клонирование репозитория
 
 ```bash
-git clone https://github.com/your-username/Wordpress-API-Project.git
+git clone https://github.com/MielPops828/Wordpress-API-Project
 cd Wordpress-API-Project
 ```
 
